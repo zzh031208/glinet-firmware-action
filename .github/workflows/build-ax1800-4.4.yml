@@ -17,7 +17,7 @@ jobs:
         git config --global user.name "aa"
     - name: make 
       run: |
-        ./build.sh ~ glinet-ax1800
+        ./build.sh ~ target_wlan_ap-gl-ax1800
         
     - name: Organize files
       id: organize
