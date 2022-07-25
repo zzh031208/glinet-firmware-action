@@ -1,24 +1,24 @@
-name: build gl-ax1800-4.4
+name: build gl.inet
 
 on:
   workflow_dispatch:
     inputs:
-      èdevice:
-        description: ''     
+      device:
+        description: '选择设备'     
         required: true
         default: 'target_wlan_ap-gl-ax1800' 
         type: choice
         options:
         - target_wlan_ap-gl-ax1800
         - target_wlan_ap-gl-axt1800
-        - target_wlan_ap-gl-axt1800
-        - target_wlan_ap-gl-axt1800
-       tags:
-        description: 'Test scenario tags'
-        required: false 
+        - target_wlan_ap-gl-ax1800-5-4
+        - target_wlan_ap-gl-axt1800-5-4
+        
+      ui:
+        description: '是否包含官方UI'
+        required: false
         type: boolean
-
-
+        
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -33,7 +33,7 @@ jobs:
         git config --global user.name "aa"
     - name: make 
       run: |
-        ./build.sh ~ target_wlan_ap-gl-ax1800
+        ./build.sh ~ ${{ inputs.device }} ${{ inputs.ui }}
         
     - name: Organize files
       id: organize
