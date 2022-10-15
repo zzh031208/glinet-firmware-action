@@ -5,7 +5,7 @@ feeds:
     uri: https://github.com/fw876/helloworld.git
     branch: master
 packages:
-  - luci-app-zerotier
+  - luci-app-mwan3
 
 
 
