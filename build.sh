@@ -39,12 +39,16 @@ if [[ $profile == *5-4* ]]; then
         python3 setup.py -c configs/config-wlan-ap-5.4.yml
 elif [[ $profile == *a1300* ]]; then
 		python3 setup.py -c configs/config-21.02.2.yml
+elif [[ $profile == *mt7981* ]]; then
+		python3 setup.py -c  configs/config-mt798x-7.6.6.1.yml
 else
         python3 setup.py -c configs/config-wlan-ap.yml
 fi
 
 if [[ $profile == *wlan_ap*  ]]; then
 	ln -s $base/gl-infra-builder/wlan-ap/openwrt ~/openwrt
+elif [[ $profile == *mt7981* ]]; then
+	ln -s $base/gl-infra-builder/mt7981 ~/openwrt
 else
 	ln -s $base/gl-infra-builder/openwrt-21.02/openwrt-21.02.2 ~/openwrt
 fi
@@ -52,6 +56,8 @@ cd ~/openwrt
 
 
 if [[ $ui == true  ]] && [[ $profile == *wlan_ap* ]]; then 
+	./scripts/gen_config.py $profile glinet_depends custom
+elif [[ $ui == true  ]] && [[ $profile == *mt7981* ]]; then
 	./scripts/gen_config.py $profile glinet_depends custom
 else
 	./scripts/gen_config.py $profile openwrt_common luci custom
@@ -68,6 +74,8 @@ make defconfig
 
 if [[ $ui == true  ]] && [[ $profile == *wlan_ap* ]]; then 
 	make -j$(expr $(nproc) + 1) GL_PKGDIR=$base/glinet/ipq60xx/ V=s
+elif [[ $ui == true  ]] && [[ $profile == *mt7981* ]]; then
+	make -j$(expr $(nproc) + 1) GL_PKGDIR=$base/glinet/mt7981/ V=s
 else
 	make -j$(expr $(nproc) + 1)  V=s
 fi
