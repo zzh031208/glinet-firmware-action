@@ -56,9 +56,11 @@ cd ~/openwrt
 
 
 if [[ $ui == true  ]] && [[ $profile == *wlan_ap* ]]; then 
-	./scripts/gen_config.py $profile glinet_depends custom
+	./scripts/gen_config.py $profile glinet_depends glinet_nas custom
 elif [[ $ui == true  ]] && [[ $profile == *mt7981* ]]; then
-	./scripts/gen_config.py $profile glinet_depends custom
+	./scripts/gen_config.py $profile glinet_depends glinet_nas custom
+elif [[ $ui == true  ]] && [[ $profile == *ipq40xx* ]]; then
+	./scripts/gen_config.py $profile glinet_depends glinet_nas custom
 else
 	./scripts/gen_config.py $profile openwrt_common luci custom
 fi
@@ -75,6 +77,11 @@ make defconfig
 if [[ $ui == true  ]] && [[ $profile == *wlan_ap* ]]; then 
 	make -j$(expr $(nproc) + 1) GL_PKGDIR=$base/glinet/ipq60xx/ V=s
 elif [[ $ui == true  ]] && [[ $profile == *mt7981* ]]; then
+	if [[ $profile == *mt2500 ]]; then
+		cp $base/glinet/pkg_config/gl_pkg_config_mt7981_mt2500.mk $base/glinet/mt7981/gl_pkg_config.mk
+	else
+		cp $base/glinet/pkg_config/gl_pkg_config_mt7981_mt3000.mk $base/glinet/mt7981/gl_pkg_config.mk
+	fi
 	make -j$(expr $(nproc) + 1) GL_PKGDIR=$base/glinet/mt7981/ V=s
 else
 	make -j$(expr $(nproc) + 1)  V=s
