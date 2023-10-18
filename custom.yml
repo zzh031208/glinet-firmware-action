@@ -6,7 +6,6 @@ feeds:
     branch: master
 packages:
   - luci-app-mwan3
-  - v2raya
 
 
 diffconfig: |
